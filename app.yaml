@@ -5,9 +5,6 @@ threadsafe: true
 handlers:
 - url: /.*
   script: main.app
-- url: /style\.css
-  static_files: style.css
-  upload: style\.css
 
 libraries:
 - name: webapp2

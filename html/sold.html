@@ -2,22 +2,17 @@
 {% block content %}
 		<div class="content">
 			<table>
-				<tr>
+                <tr>
 					<th>Show Name</th>
 					<th>Tickets Sold</th>
 				</tr>
-				<tr>
-					<td>Dunkirk</td>
-					<td>110</td>
-				</tr>
-				<tr>
-					<td>Wonder Woman</td>
-					<td>220</td>
-				</tr>
-				<tr>
-					<td>Tik Tik Tik</td>
-					<td>330</td>
-				</tr>
+                {% for item in search_query: %}
+    			    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.capacity - item.available}}</td>
+                        <td><form action="/action_page" method="get"></td>
+                    </tr>
+                {% endfor %}
 			</table>
 		</div>
 {% endblock %}

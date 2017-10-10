@@ -5,22 +5,15 @@
 				<tr>
 					<th>Show Name</th>
 					<th>Tickets Sold</th>
+					<th></th>
 				</tr>
-				<tr>
-					<td>Dunkirk</td>
-					<td>110</td>
-					<td class="transparent"><button type="button" class="del"><img src="images/remove.png" alt="delete" class="delIcon"></button></td>
-				</tr>
-				<tr>
-					<td>Wonder Woman</td>
-					<td>220</td>
-					<td class="transparent"><button type="button" class="del"><img src="images/remove.png" alt="delete" class="delIcon"></button></td>
-				</tr>
-				<tr>
-					<td>Tik Tik Tik</td>
-					<td>330</td>
-					<td class="transparent"><button type="button" class="del"><img src="images/remove.png" alt="delete" class="delIcon"></button></td>
-				</tr>
+				{% for item in search_query: %}
+    			    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.capacity - item.available}}</td>
+						<td><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}"><input type="submit" value="Delete"></form></td>
+                    </tr>
+                {% endfor %}
 			</table>
 		</div>
 {% endblock %}

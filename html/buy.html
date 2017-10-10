@@ -7,21 +7,13 @@
 					<th>Show Name</th>
 					<th>Tickets Available</th>
 				</tr>
+				{% for item in search_query: %}
 				<tr>
 					<td class="transparent"><input type="radio" name="show"></td>
-					<td>Dunkirk</td>
-					<td>390</td>
+					<td>{{ item.name }}</td>
+					<td>{{ item.available }}</td>
 				</tr>
-				<tr>
-					<td class="transparent"><input type="radio" name="show"></td>
-					<td>Wonder Woman</td>
-					<td>280</td>
-				</tr>
-				<tr>
-					<td class="transparent"><input type="radio" name="show"></td>
-					<td>Tik Tik Tik</td>
-					<td>170</td>
-				</tr>
+                {% endfor %}
 				<tr>
 					<table>
 						<td class="transparent"></td>
@@ -30,7 +22,6 @@
 						<td class="transparent"><button type="button">Buy</button></td>
 					</table>
 				</tr>
-				</tfoot>
 			</table>
 		</form>
 {% endblock %}
