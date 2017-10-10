@@ -1,0 +1,36 @@
+{% extends "template.html" %}
+{% block content %}
+		<form class="content">
+			<table>
+				<tr>
+					<th class="transparent"></th>
+					<th>Show Name</th>
+					<th>Tickets Available</th>
+				</tr>
+				<tr>
+					<td class="transparent"><input type="radio" name="show"></td>
+					<td>Dunkirk</td>
+					<td>390</td>
+				</tr>
+				<tr>
+					<td class="transparent"><input type="radio" name="show"></td>
+					<td>Wonder Woman</td>
+					<td>280</td>
+				</tr>
+				<tr>
+					<td class="transparent"><input type="radio" name="show"></td>
+					<td>Tik Tik Tik</td>
+					<td>170</td>
+				</tr>
+				<tr>
+					<table>
+						<td class="transparent"></td>
+						<td class="transparent"></td>
+						<td><input type="text" placeholder="No. of tickets" align="center"></td>
+						<td class="transparent"><button type="button">Buy</button></td>
+					</table>
+				</tr>
+				</tfoot>
+			</table>
+		</form>
+{% endblock %}
