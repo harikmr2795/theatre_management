@@ -11,7 +11,7 @@
     			    <tr>
                         <td>{{item.name}}</td>
                         <td>{{item.capacity - item.available}}</td>
-						<td><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}"><input type="submit" value="Delete"></form></td>
+						<td><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}" hidden><button type="submit">Delete</button></form></td>
                     </tr>
                 {% endfor %}
 			</table>
