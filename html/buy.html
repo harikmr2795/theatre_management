@@ -3,23 +3,20 @@
 		<form action="/buy" method="post" class="content">
 			<table>
 				<tr>
-					<!--<th class="transparent"></th>-->
 					<th>Show Name</th>
 					<th>Tickets Available</th>
 				</tr>
 				{% for item in search_query: %}
 				<tr>
-					<!--<td class="transparent"><input type="radio" name="show" value="{{item.name}}" required></td>-->
 					<td>{{ item.name }}</td>
 					<td>{{ item.available }}</td>
-                    <td><input type="number" min="1" max="{{ item.available }}" align="center" name="{{ item.name }}"></td>
+                    <td class="transparent"><input type="number" min="0" max="{{ item.available }}" align="center" name="{{ item.name }}" class="buy"></td>
 				</tr>
                 {% endfor %}
 				<tr>
                     <td class="transparent"></td>
                     <td class="transparent"></td>
-                    <td class="transparent"><!--<input type="text" placeholder="No. of tickets" align="center">--></td>
-                    <td class="transparent"><button type="submit">Buy</button></td>
+                    <td class="transparent"><button type="submit" class="transparent">Buy</button></td>
 				</tr>
 			</table>
 		</form>

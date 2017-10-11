@@ -5,12 +5,13 @@
                 <tr>
 					<th>Show Name</th>
 					<th>Tickets Sold</th>
+                    <th>Total Seats</th>
 				</tr>
                 {% for item in search_query: %}
     			    <tr>
                         <td>{{item.name}}</td>
                         <td>{{item.capacity - item.available}}</td>
-                        <td><form action="/action_page" method="get"></td>
+                        <td>{{item.capacity}}</td>
                     </tr>
                 {% endfor %}
 			</table>

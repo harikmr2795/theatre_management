@@ -34,7 +34,6 @@ class BuyHandler(webapp2.RequestHandler):
 		for item in search_query:
 			no_of_tickets = self.request.get(item.name)
 			if no_of_tickets != "":
-				#self.response.out.write(no_of_tickets)
 				item.available -= int(no_of_tickets)
 				item.put()
 		self.get()

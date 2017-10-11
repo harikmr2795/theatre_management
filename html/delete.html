@@ -5,13 +5,12 @@
 				<tr>
 					<th>Show Name</th>
 					<th>Tickets Sold</th>
-					<th></th>
 				</tr>
 				{% for item in search_query: %}
     			    <tr>
                         <td>{{item.name}}</td>
                         <td>{{item.capacity - item.available}}</td>
-						<td><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}" hidden><button type="submit">Delete</button></form></td>
+						<td class="transparent"><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}" hidden><button class="transparent" type="submit">Delete</button></form></td>
                     </tr>
                 {% endfor %}
 			</table>

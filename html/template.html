@@ -1,8 +1,107 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="style.css">
 		<title>{{ title }}</title>
+		<style>
+            html {
+                min-height: 100%;
+            }
+
+            body{
+                color: #8888C1;
+                background: linear-gradient(#8888C1, #9999CC);
+                margin: 0px;
+            }
+
+            *{
+                font-size: 30px;
+                font-weight: 400;
+                font-family: sans-serif;
+            }
+
+            header{
+                z-index: 10;
+                position: fixed;
+                text-align: center;
+                width: 100%;
+                background-color: #000040;
+            }
+
+            table{
+                margin: auto;
+            }
+
+            li{
+                display: inline-block;
+                margin: 0 20px;
+            }
+
+            td{
+                background: white;
+                padding: 5px 15px;
+                text-align: center;
+            }
+
+            th{
+                background: #CCCCCC;
+                padding: 5px 15px;
+                text-align: center;
+            }
+
+            a{
+                all: unset;
+            }
+
+            button{
+                padding: 5px;
+            }
+
+            input[type=text]{
+                border: 0;
+            }
+
+            .buy{
+                width:100%;
+            }
+
+            ::placeholder{
+                color: #CCCCCC;
+            }
+
+            .bigInput{
+                padding: 20px;
+                border-width: 0;
+                width: 350px;
+                height: 20px;
+            }
+
+            .content{
+                position: relative;
+                top: 200px;
+            }
+
+            .center{
+                margin: auto;
+            }
+
+            .pageLinks{
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            .delIcon{
+                width: 30px;
+            }
+
+            .transparent{
+                background-color: transparent;
+            }
+
+            .del{
+                background-color: transparent;
+                border: none;
+            }
+		</style>
 	</head>
 	<body>
 		<header>
