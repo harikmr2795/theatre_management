@@ -19,7 +19,7 @@ class MainHandler(webapp2.RequestHandler):
 class BuyHandler(webapp2.RequestHandler):
     def get(self):
 		show_lst = Show.query()
-		search_query = show_lst.filter().order(Show.name)
+		search_query = show_lst.order(Show.name)
 		title = "Buy Tickets"
 		template_vars = {
 			'title': title,
@@ -29,12 +29,20 @@ class BuyHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render(template_vars))
 
     def post(self):
-		pass
+		show_lst = Show.query()
+		search_query = show_lst.order(Show.name)
+		for item in search_query:
+			no_of_tickets = self.request.get(item.name)
+			if no_of_tickets != "":
+				#self.response.out.write(no_of_tickets)
+				item.available -= int(no_of_tickets)
+				item.put()
+		self.get()
 
 class SoldHandler(webapp2.RequestHandler):
     def get(self):
 		show_lst = Show.query()
-		search_query = show_lst.filter().order(Show.name)
+		search_query = show_lst.order(Show.name)
 		title = "Sold Details"
 		template_vars = {
 			'title': title,

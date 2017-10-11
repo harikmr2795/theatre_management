@@ -12,7 +12,7 @@
 					<!--<td class="transparent"><input type="radio" name="show" value="{{item.name}}" required></td>-->
 					<td>{{ item.name }}</td>
 					<td>{{ item.available }}</td>
-                    <td><input type="number" min="1" max="{{item.available}}" align="center" name="number_of_tickets"></td>
+                    <td><input type="number" min="1" max="{{ item.available }}" align="center" name="{{ item.name }}"></td>
 				</tr>
                 {% endfor %}
 				<tr>
