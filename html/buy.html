@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block content %}
-		<form action="/buy" method="post" class="content">
+		<div class="content">
 			<table>
 				<tr>
 					<th>Show Name</th>
@@ -10,14 +10,17 @@
 				<tr>
 					<td>{{ item.name }}</td>
 					<td>{{ item.available }}</td>
-                    <td class="transparent"><input type="number" min="0" max="{{ item.available }}" align="center" name="{{ item.name }}" class="buy"></td>
+                    <td class="transparent">
+                        <form action="/buy" method="post">
+                            <input type="text" value="{{ item.name }}" name="name" hidden>
+                            <button type="submit" class="transparent">Book</button>
+                        </form>
+                    </td>
 				</tr>
                 {% endfor %}
-				<tr>
-                    <td class="transparent"></td>
-                    <td class="transparent"></td>
-                    <td class="transparent"><button type="submit" class="transparent">Buy</button></td>
-				</tr>
 			</table>
-		</form>
+            {% for item in message: %}
+			<p class="message"> {{ item.msg }} </p>
+		    {% endfor %}
+		</div>
 {% endblock %}

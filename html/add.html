@@ -1,10 +1,10 @@
 {% extends "template.html" %}
 {% block content %}
 			<div class="content">
-				<form action="/add" method="POST">
+				<form action="/add" method="post">
 					<table cellspacing="15">
 						<tr>
-							<td><input type="text" class="bigInput" name="show_name" placeholder="Name of the Show" required=True autofocus></td>
+							<td><input type="text" class="bigInput" name="show_name" placeholder="Name of the Show" maxlength="50" required=True autofocus></td>
 						</tr>
 						<tr>
 							<td><input type="number" max="10000" min="1" class="bigInput" name="capacity" placeholder="Seating capacity" required=True></td>
@@ -14,5 +14,8 @@
 						<button type="submit" class="transparent">Add</button></td>
 					</div>
 				</form>
+				{% for item in message: %}
+				<p class="message"> {{ item.msg }} </p>
+		    	{% endfor %}
 			</div>
 {% endblock %}

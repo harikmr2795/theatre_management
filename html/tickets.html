@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+{% block content %}
+        <div class="content">
+            <form action="/tickets" method="post">
+                <table>
+                    <tr>
+                        <td>Show Name: {{ item.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Seats: {{ item.capacity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tickets Available: {{ item.available }}</td>
+                    </tr>
+                    <tr>
+                        <td class="transparent nopadding"><input type="text" name="name" value="{{ item.name }}" hidden><input type="number" name="tickets" min="1" max="{{ item.available }}" align="center" placeholder="No. of tickets" required></td>
+                    <tr>
+                        <td class="transparent"><button type="submit" class="transparent">Buy</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+{% endblock %}

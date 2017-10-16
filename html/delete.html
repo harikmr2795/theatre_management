@@ -14,5 +14,8 @@
                     </tr>
                 {% endfor %}
 			</table>
+			{% for item in message: %}
+			<p class="message"> {{ item.msg }} </p>
+		    {% endfor %}
 		</div>
 {% endblock %}
