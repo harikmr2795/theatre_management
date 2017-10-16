@@ -6,13 +6,16 @@ from google.appengine.ext import ndb
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/html"))
 
+
 class Show(ndb.Model):
     name = ndb.StringProperty(indexed=True)
     capacity = ndb.IntegerProperty(indexed=True)
     available = ndb.IntegerProperty(indexed=True)
 
+
 class Msg(ndb.Model):
     msg = ndb.StringProperty(indexed=True)
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -152,7 +155,6 @@ class TicketsHandler(webapp2.RequestHandler):
             item.put()
         template = JINJA_ENVIRONMENT.get_template('buy.html')
         self.response.out.write(template.render(template_vars))
-
 
 
 app = webapp2.WSGIApplication([
