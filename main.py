@@ -28,8 +28,7 @@ class MainHandler(webapp2.RequestHandler):
 
 class BuyHandler(webapp2.RequestHandler):
     def get(self):
-        show_lst = Show.query()
-        search_query = show_lst.order(Show.name)
+        search_query = Show.query().order(Show.name)
         title = "Buy Tickets"
         template_vars = {
             'title': title,
@@ -57,8 +56,7 @@ class BuyHandler(webapp2.RequestHandler):
 
 class SoldHandler(webapp2.RequestHandler):
     def get(self):
-        show_lst = Show.query()
-        search_query = show_lst.order(Show.name)
+        search_query = Show.query().order(Show.name)
         title = "Sold Details"
         template_vars = {
             'title': title,
@@ -98,8 +96,7 @@ class AddHandler(webapp2.RequestHandler):
 
 class DeleteHandler(webapp2.RequestHandler):
     def get(self):
-        show_lst = Show.query()
-        search_query = show_lst.order(Show.name)
+        search_query = Show.query().order(Show.name)
         title = "Delete Show"
         template_vars = {
             'title': title,
@@ -110,13 +107,15 @@ class DeleteHandler(webapp2.RequestHandler):
 
     def post(self):
         name = self.request.get('name')
-        show_lst = Show.query()
-        search_query = show_lst.filter(Show.name == name)
+        search_query = Show.query().filter(Show.name == name)
+        # show_lst = Show.query()
+        # search_query = show_lst.filter(Show.name == name)
         for item in search_query:
             item.key.delete()
         message = Msg.query()
-        show_lst = Show.query()
-        search_query = show_lst.order(Show.name)
+        search_query = Show.query().order(Show.name)
+        # show_lst = Show.query()
+        # search_query = show_lst.order(Show.name)
         title = "Delete Show"
         template_vars = {
             'title': title,
@@ -135,15 +134,17 @@ class TicketsHandler(webapp2.RequestHandler):
     def post(self):
         name = self.request.get('name')
         tickets = int(self.request.get('tickets'))
-        show_lst = Show.query()
-        search_query = show_lst.filter(Show.name == name)
+        search_query = Show.query().filter(Show.name == name)
+        # show_lst = Show.query()
+        # search_query = show_lst.filter(Show.name == name)
         for item in search_query:
             item.available -= tickets
             item.put()
 
         message = Msg.query()
-        show_lst = Show.query()
-        search_query = show_lst.order(Show.name)
+        search_query = Show.query().order(Show.name)
+        # show_lst = Show.query()
+        # search_query = show_lst.order(Show.name)
         title = "Buy Tickets"
         template_vars = {
             'title': title,
