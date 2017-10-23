@@ -14,9 +14,6 @@
 						<button type="submit" class="transparent">Add</button></td>
 					</div>
 				</form>
-				{% for item in message: %}
-				<p class="message"> {{ item.msg }} </p>
-		    	{% endfor %}
-				message
+				<p class="message"> {{ message[0].msg }} </p>
 			</div>
 {% endblock %}

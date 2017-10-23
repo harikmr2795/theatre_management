@@ -25,20 +25,23 @@ class MainHandler(webapp2.RequestHandler):
         self.response.out.write(template.render())
 
 
-class BuyHandler(webapp2.RequestHandler):
+class SelectShowHandler(webapp2.RequestHandler):
     def get(self):
+        message = Msg.query().fetch()
         search_query = Show.query().order(Show.name)
         title = "Buy Tickets"
         template_vars = {
             'title': title,
-            'search_query': search_query
+            'search_query': search_query,
+            'message': message
         }
         template = JINJA_ENVIRONMENT.get_template('buy.html')
         self.response.out.write(template.render(template_vars))
+        message[0].msg = ''
+        message[0].put()
 
     def post(self):
-        item_key = self.request.get('id')
-        item = ndb.Key(urlsafe=item_key).get()
+        item = ndb.Key(urlsafe = self.request.get('id')).get()
         title = "Book Tickets"
         template_vars = {
             'title': title,
@@ -63,20 +66,22 @@ class SoldHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         title = "Add Show"
-        message = Msg.query()
+        message = Msg.query().fetch()
         template_vars = {
             'title': title,
             'message': message
         }
         template = JINJA_ENVIRONMENT.get_template('add.html')
         self.response.out.write(template.render(template_vars))
+        message[0].msg = ""
+        message[0].put()
 
     def post(self):
         Show(name=self.request.get('show_name'), available=int(self.request.get('capacity')), capacity=int(self.request.get('capacity'))).put()
         message = Msg.query().fetch()
         message[0].msg = self.request.get('show_name') + " added with capacity " + self.request.get('capacity')
         message[0].put()
-        time.sleep(0.1)
+        time.sleep(0.3)
         self.redirect('/add.html')
 
 
@@ -92,6 +97,8 @@ class DeleteHandler(webapp2.RequestHandler):
         }
         template = JINJA_ENVIRONMENT.get_template('delete.html')
         self.response.out.write(template.render(template_vars))
+        message[0].msg = ""
+        message[0].put()
 
     def post(self):
         message = Msg.query().fetch(1)
@@ -99,41 +106,31 @@ class DeleteHandler(webapp2.RequestHandler):
         message[0].msg = item.name + " show removed "
         message[0].put()
         item.key.delete()
-        time.sleep(0.1)
+        time.sleep(0.3)
         self.redirect('/delete.html')
 
 
-class TicketsHandler(webapp2.RequestHandler):
+class BookHandler(webapp2.RequestHandler):
     def post(self):
         tickets = int(self.request.get('tickets'))
-        item_key = self.request.get('id')
-        item = ndb.Key(urlsafe=item_key).get()
+        item = ndb.Key(urlsafe = self.request.get('id')).get()
         item.available -= tickets
         item.put()
-
         message = Msg.query().fetch()
-        search_query = Show.query().order(Show.name)
-        title = "Buy Tickets"
-        template_vars = {
-            'title': title,
-            'search_query': search_query,
-            'message': message
-        }
         message[0].msg = self.request.get('tickets') + " ticket(s) booked for " + item.name
         message[0].put()
-        template = JINJA_ENVIRONMENT.get_template('buy.html')
-        self.response.out.write(template.render(template_vars))
-
+        time.sleep(0.3)
+        self.redirect('/buy.html')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/index.html', MainHandler),
-    ('/buy.html', BuyHandler),
+    ('/buy.html', SelectShowHandler),
     ('/sold.html', SoldHandler),
     ('/add.html', AddHandler),
     ('/delete.html', DeleteHandler),
     ('/add', AddHandler),
     ('/delete', DeleteHandler),
-    ('/buy', BuyHandler),
-    ('/tickets', TicketsHandler),
+    ('/buy', SelectShowHandler),
+    ('/tickets', BookHandler),
 ], debug=True)
