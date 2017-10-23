@@ -51,6 +51,19 @@ class SelectShowHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_vars))
 
 
+class BookHandler(webapp2.RequestHandler):
+    def post(self):
+        tickets = int(self.request.get('tickets'))
+        item = ndb.Key(urlsafe = self.request.get('id')).get()
+        item.available -= tickets
+        item.put()
+        message = Msg.query().fetch()
+        message[0].msg = self.request.get('tickets') + " ticket(s) booked for " + item.name
+        message[0].put()
+        time.sleep(0.3)
+        self.redirect('/buy.html')
+
+
 class SoldHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
@@ -85,17 +98,17 @@ class AddHandler(webapp2.RequestHandler):
         self.redirect('/add.html')
 
 
-class DeleteHandler(webapp2.RequestHandler):
+class RemoveHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
         message = Msg.query().fetch()
-        title = "Delete Show"
+        title = "Remove Show"
         template_vars = {
             'title': title,
             'search_query': search_query,
             'message': message
         }
-        template = JINJA_ENVIRONMENT.get_template('delete.html')
+        template = JINJA_ENVIRONMENT.get_template('remove.html')
         self.response.out.write(template.render(template_vars))
         message[0].msg = ""
         message[0].put()
@@ -107,20 +120,8 @@ class DeleteHandler(webapp2.RequestHandler):
         message[0].put()
         item.key.delete()
         time.sleep(0.3)
-        self.redirect('/delete.html')
+        self.redirect('/remove.html')
 
-
-class BookHandler(webapp2.RequestHandler):
-    def post(self):
-        tickets = int(self.request.get('tickets'))
-        item = ndb.Key(urlsafe = self.request.get('id')).get()
-        item.available -= tickets
-        item.put()
-        message = Msg.query().fetch()
-        message[0].msg = self.request.get('tickets') + " ticket(s) booked for " + item.name
-        message[0].put()
-        time.sleep(0.3)
-        self.redirect('/buy.html')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -128,9 +129,9 @@ app = webapp2.WSGIApplication([
     ('/buy.html', SelectShowHandler),
     ('/sold.html', SoldHandler),
     ('/add.html', AddHandler),
-    ('/delete.html', DeleteHandler),
+    ('/remove.html', RemoveHandler),
     ('/add', AddHandler),
-    ('/delete', DeleteHandler),
+    ('/remove', RemoveHandler),
     ('/buy', SelectShowHandler),
     ('/tickets', BookHandler),
 ], debug=True)
