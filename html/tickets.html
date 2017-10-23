@@ -13,7 +13,7 @@
                         <td>Tickets Available: {{ item.available }}</td>
                     </tr>
                     <tr>
-                        <td class="transparent nopadding"><input type="text" name="name" value="{{ item.name }}" hidden><input type="number" name="tickets" min="1" max="{{ item.available }}" align="center" placeholder="No. of tickets" required></td>
+                        <td class="transparent nopadding"><input value={{ item.key.urlsafe() }} name="id" hidden><input type="number" name="tickets" min="1" max="{{ item.available }}" align="center" placeholder="No. of tickets" required></td>
                     <tr>
                         <td class="transparent"><button type="submit" class="transparent">Buy</button></td>
                     </tr>

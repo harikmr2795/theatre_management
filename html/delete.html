@@ -10,7 +10,7 @@
     			    <tr>
                         <td>{{item.name}}</td>
                         <td>{{item.capacity - item.available}}</td>
-						<td class="transparent"><form action="/delete" method="post"><input type="text" name="name" value="{{ item.name }}" hidden><button class="transparent" type="submit">Delete</button></form></td>
+						<td class="transparent"><form action="/delete" method="post"><input type="text" value={{ item.key.urlsafe() }} name="id" hidden><button class="transparent" type="submit">Delete</button></form></td>
                     </tr>
                 {% endfor %}
 			</table>

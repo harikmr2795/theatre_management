@@ -12,7 +12,7 @@
 					<td>{{ item.available }}</td>
                     <td class="transparent">
                         <form action="/buy" method="post">
-                            <input type="text" value="{{ item.name }}" name="name" hidden>
+                            <input type="text" value={{ item.key.urlsafe() }} name="id" hidden>
                             <button type="submit" class="transparent">Book</button>
                         </form>
                     </td>

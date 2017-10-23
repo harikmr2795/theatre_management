@@ -19,9 +19,7 @@ class Msg(ndb.Model):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        m = Msg()
-        #m.msg = "Hello"
-        #m.put()
+        #Msg(msg = "Hello").put()
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.out.write(template.render())
 
@@ -38,17 +36,12 @@ class BuyHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_vars))
 
     def post(self):
-        search_query = Show.query()
-        name = self.request.get('name')
-        for item in search_query:
-            pass_item = item
-            if item.name == name:
-                break
-
+        item_key = self.request.get('id')
+        item = ndb.Key(urlsafe=item_key).get()
         title = "Book Tickets"
         template_vars = {
             'title': title,
-            'item': pass_item
+            'item': item
         }
         template = JINJA_ENVIRONMENT.get_template('tickets.html')
         self.response.out.write(template.render(template_vars))
@@ -76,22 +69,16 @@ class AddHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_vars))
 
     def post(self):
-        s = Show()
-        s.name = self.request.get('show_name')
-        s.available = s.capacity = int(self.request.get('capacity'))
-        s.put()
+        Show(name=self.request.get('show_name'), available=int(self.request.get('capacity')), capacity=int(self.request.get('capacity'))).put()
         title = "Add Show"
-        message = Msg.query()
+        message = Msg.query().fetch()
         template_vars = {
             'title': title,
-            'message': message
-        }
-        for item in message:
-            item.msg = self.request.get('show_name') + " added with capacity " + self.request.get('capacity')
-            item.put()
+            'message': message}
+        message[0].msg = self.request.get('show_name') + " added with capacity " + self.request.get('capacity')
+        message[0].put()
         template = JINJA_ENVIRONMENT.get_template('add.html')
         self.response.out.write(template.render(template_vars))
-        #self.get()
 
 
 class DeleteHandler(webapp2.RequestHandler):
@@ -106,54 +93,43 @@ class DeleteHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_vars))
 
     def post(self):
-        name = self.request.get('name')
-        search_query = Show.query().filter(Show.name == name)
-        # show_lst = Show.query()
-        # search_query = show_lst.filter(Show.name == name)
-        for item in search_query:
-            item.key.delete()
-        message = Msg.query()
+        item_key = self.request.get('id')
+        item = ndb.Key(urlsafe=item_key).get()
+        item_name = item.name
+        item.key.delete()
+
+        message = Msg.query().fetch()
         search_query = Show.query().order(Show.name)
-        # show_lst = Show.query()
-        # search_query = show_lst.order(Show.name)
         title = "Delete Show"
         template_vars = {
             'title': title,
             'search_query': search_query,
             'message': message
         }
-        for item in message:
-            item.msg = self.request.get('name') + " show removed "
-            item.put()
+        message[0].msg = item_name + " show removed "
+        message[0].put()
         template = JINJA_ENVIRONMENT.get_template('delete.html')
         self.response.out.write(template.render(template_vars))
-        #self.get()
 
 
 class TicketsHandler(webapp2.RequestHandler):
     def post(self):
-        name = self.request.get('name')
         tickets = int(self.request.get('tickets'))
-        search_query = Show.query().filter(Show.name == name)
-        # show_lst = Show.query()
-        # search_query = show_lst.filter(Show.name == name)
-        for item in search_query:
-            item.available -= tickets
-            item.put()
+        item_key = self.request.get('id')
+        item = ndb.Key(urlsafe=item_key).get()
+        item.available -= tickets
+        item.put()
 
-        message = Msg.query()
+        message = Msg.query().fetch()
         search_query = Show.query().order(Show.name)
-        # show_lst = Show.query()
-        # search_query = show_lst.order(Show.name)
         title = "Buy Tickets"
         template_vars = {
             'title': title,
             'search_query': search_query,
             'message': message
         }
-        for item in message:
-            item.msg = self.request.get('tickets') + " ticket(s) booked for " + self.request.get('name')
-            item.put()
+        message[0].msg = self.request.get('tickets') + " ticket(s) booked for " + item.name
+        message[0].put()
         template = JINJA_ENVIRONMENT.get_template('buy.html')
         self.response.out.write(template.render(template_vars))
 
