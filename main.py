@@ -1,6 +1,7 @@
+import os
+import time
 import webapp2
 import jinja2
-import os
 from google.appengine.ext import ndb
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -62,54 +63,44 @@ class SoldHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         title = "Add Show"
+        message = Msg.query()
         template_vars = {
-            'title': title
+            'title': title,
+            'message': message
         }
         template = JINJA_ENVIRONMENT.get_template('add.html')
         self.response.out.write(template.render(template_vars))
 
     def post(self):
         Show(name=self.request.get('show_name'), available=int(self.request.get('capacity')), capacity=int(self.request.get('capacity'))).put()
-        title = "Add Show"
         message = Msg.query().fetch()
-        template_vars = {
-            'title': title,
-            'message': message}
         message[0].msg = self.request.get('show_name') + " added with capacity " + self.request.get('capacity')
         message[0].put()
-        template = JINJA_ENVIRONMENT.get_template('add.html')
-        self.response.out.write(template.render(template_vars))
+        time.sleep(0.1)
+        self.redirect('/add.html')
 
 
 class DeleteHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
-        title = "Delete Show"
-        template_vars = {
-            'title': title,
-            'search_query': search_query
-        }
-        template = JINJA_ENVIRONMENT.get_template('delete.html')
-        self.response.out.write(template.render(template_vars))
-
-    def post(self):
-        item_key = self.request.get('id')
-        item = ndb.Key(urlsafe=item_key).get()
-        item_name = item.name
-        item.key.delete()
-
         message = Msg.query().fetch()
-        search_query = Show.query().order(Show.name)
         title = "Delete Show"
         template_vars = {
             'title': title,
             'search_query': search_query,
             'message': message
         }
-        message[0].msg = item_name + " show removed "
-        message[0].put()
         template = JINJA_ENVIRONMENT.get_template('delete.html')
         self.response.out.write(template.render(template_vars))
+
+    def post(self):
+        message = Msg.query().fetch(1)
+        item = ndb.Key(urlsafe = self.request.get('id')).get()
+        message[0].msg = item.name + " show removed "
+        message[0].put()
+        item.key.delete()
+        time.sleep(0.1)
+        self.redirect('/delete.html')
 
 
 class TicketsHandler(webapp2.RequestHandler):
