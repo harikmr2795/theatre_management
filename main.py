@@ -18,6 +18,7 @@ class Msg(ndb.Model):
     msg = ndb.StringProperty(indexed=True)
 
 
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         #Msg(msg = "Hello").put()
@@ -27,7 +28,7 @@ class MainHandler(webapp2.RequestHandler):
 
 class SelectShowHandler(webapp2.RequestHandler):
     def get(self):
-        message = Msg.query().fetch()
+        message = Msg.query().fetch(1)
         search_query = Show.query().order(Show.name)
         title = "Buy Tickets"
         template_vars = {
@@ -57,7 +58,7 @@ class BookHandler(webapp2.RequestHandler):
         item = ndb.Key(urlsafe = self.request.get('id')).get()
         item.available -= tickets
         item.put()
-        message = Msg.query().fetch()
+        message = Msg.query().fetch(1)
         message[0].msg = self.request.get('tickets') + " ticket(s) booked for " + item.name
         message[0].put()
         time.sleep(0.3)
@@ -79,7 +80,7 @@ class SoldHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         title = "Add Show"
-        message = Msg.query().fetch()
+        message = Msg.query().fetch(1)
         template_vars = {
             'title': title,
             'message': message
@@ -91,7 +92,7 @@ class AddHandler(webapp2.RequestHandler):
 
     def post(self):
         Show(name=self.request.get('show_name'), available=int(self.request.get('capacity')), capacity=int(self.request.get('capacity'))).put()
-        message = Msg.query().fetch()
+        message = Msg.query().fetch(1)
         message[0].msg = self.request.get('show_name') + " added with capacity " + self.request.get('capacity')
         message[0].put()
         time.sleep(0.3)
@@ -101,7 +102,7 @@ class AddHandler(webapp2.RequestHandler):
 class RemoveHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
-        message = Msg.query().fetch()
+        message = Msg.query().fetch(1)
         title = "Remove Show"
         template_vars = {
             'title': title,
@@ -121,6 +122,7 @@ class RemoveHandler(webapp2.RequestHandler):
         item.key.delete()
         time.sleep(0.3)
         self.redirect('/remove.html')
+
 
 
 app = webapp2.WSGIApplication([
