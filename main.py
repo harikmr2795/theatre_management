@@ -3,6 +3,7 @@ import time
 import webapp2
 import jinja2
 from google.appengine.ext import ndb
+from google.appengine.ext.webapp import template
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/html"))
@@ -10,22 +11,21 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class Show(ndb.Model):
     name = ndb.StringProperty(indexed=True)
-    capacity = ndb.IntegerProperty(indexed=True)
-    available = ndb.IntegerProperty(indexed=True)
+    capacity = ndb.IntegerProperty(indexed=False)
+    available = ndb.IntegerProperty(indexed=False)
 
 
 class Msg(ndb.Model):
     msg = ndb.StringProperty(indexed=True)
 
 
-
+#Home page
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        #Msg(msg = "Hello").put()
-        template = JINJA_ENVIRONMENT.get_template('index.html')
-        self.response.out.write(template.render())
+        # Msg(msg = "Hello").put()
+        self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
 
-
+#Booking a ticket
 class SelectShowHandler(webapp2.RequestHandler):
     def get(self):
         message = Msg.query().fetch(1)
@@ -65,6 +65,7 @@ class BookHandler(webapp2.RequestHandler):
         self.redirect('/buy.html')
 
 
+#Viewing sold details
 class SoldHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
@@ -77,6 +78,7 @@ class SoldHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_vars))
 
 
+#Adding a new show
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         title = "Add Show"
@@ -99,6 +101,7 @@ class AddHandler(webapp2.RequestHandler):
         self.redirect('/add.html')
 
 
+#Removing an existing show
 class RemoveHandler(webapp2.RequestHandler):
     def get(self):
         search_query = Show.query().order(Show.name)
@@ -122,7 +125,6 @@ class RemoveHandler(webapp2.RequestHandler):
         item.key.delete()
         time.sleep(0.3)
         self.redirect('/remove.html')
-
 
 
 app = webapp2.WSGIApplication([
