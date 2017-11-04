@@ -1,6 +1,21 @@
-{% extends "template.html" %}
-{% block content %}
-		<div class="content">
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel = "stylesheet" type = "text/css" href = "stylesheets/style.css" />
+	</head>
+	<body>
+		<header>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li class="currentTab"><a href="buy.html">Buy tickets</a></li>
+				<li><a href="sold.html">Sold ticket details</a></li>
+				<li><a href="add.html">Add show</a></li>
+				<li><a href="remove.html">Remove show</a></li>
+			</ul>
+		</header>
+
+		<div class="content selectShow">
 			<table>
 				<tr>
 					<th>Show Name</th>
@@ -12,7 +27,7 @@
 					<td>{{ item.available }}</td>
                     <td class="transparent">
                         <form action="/buy" method="post">
-                            <input type="text" value={{ item.key.urlsafe() }} name="id" hidden>
+                            <input type="text" value="{{ item.key.urlsafe() }}" name="id" hidden>
                             <button type="submit" class="transparent">Select</button>
                         </form>
                     </td>
@@ -23,4 +38,6 @@
 			<p class="message"> {{ item.msg }} </p>
 		    {% endfor %}
 		</div>
-{% endblock %}
+
+	</body>
+</html>

@@ -1,5 +1,19 @@
-{% extends "template.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel = "stylesheet" type = "text/css" href = "stylesheets/style.css" />
+	</head>
+	<body>
+		<header>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="buy.html">Buy tickets</a></li>
+				<li><a href="sold.html">Sold ticket details</a></li>
+				<li><a href="add.html">Add show</a></li>
+				<li class="currentTab"><a href="remove.html">Remove show</a></li>
+			</ul>
+		</header>
 		<div class="content">
 			<table>
 				<tr>
@@ -18,4 +32,5 @@
 			<p class="message"> {{ item.msg }} </p>
 		    {% endfor %}
 		</div>
-{% endblock %}
+	</body>
+</html>
