@@ -1,28 +1,21 @@
 import os
 import time
-import webapp2
 import jinja2
+import webapp2
 from google.appengine.ext import ndb
 from google.appengine.ext.webapp import template
+from models import *
+
+
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/html"))
 
 
-class Show(ndb.Model):
-    name = ndb.StringProperty(indexed=True)
-    capacity = ndb.IntegerProperty(indexed=False)
-    available = ndb.IntegerProperty(indexed=False)
-
-
-class Msg(ndb.Model):
-    msg = ndb.StringProperty(indexed=True)
-
-
 #Home page
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        # Msg(msg = "Hello").put()
+#         Msg(msg = "Hello").put()
         self.response.out.write(template.render(os.path.join(os.path.dirname(__file__), 'html/index.html'), {}))
 
 #Booking a ticket
