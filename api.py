@@ -7,22 +7,19 @@ class TheatreManagementApi(remote.Service):
     @Show.method(path="show/insert", name="show.insert", http_method="POST")
     def show_insert(self, request):
         """  Inserts a new show into the Datastore. """
-        if request.from_datastore:
-            show = request
-        else:
-            show = Show(name=request.name, capacity=request.capacity, available=request.capacity)
+        show = Show(name=request.name, capacity=request.capacity, available=request.capacity)
         show.put()
         return show
     
     @Show.method(path="show/book", name="show.book", http_method="POST")
     def book_ticket(self, request):
         """  Book a ticket """
+        print(request.from_datastore)
         if request.from_datastore:
-            show = request
+            show = Show(name = request.name)
+            show.put()
         else:
-            request.available
-            show = Show(name=request.name, capacity=request.capacity, available=request.capacity)
-        show.put()
+            return Show(name="Show does not exist")
         return show
     
     @Show.query_method(path="show/list", name="show.list", http_method="GET")
