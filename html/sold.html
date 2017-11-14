@@ -30,5 +30,25 @@
                 {% endfor %}
 			</table>
 		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+			$(function(){
+             $.ajax({
+               url : "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
+               method : 'get',
+               headers : 'application/json',
+               success : function(data){
+                 console.log(data.items[0].name);
+                 console.log('success');
+
+               },
+               error : function(data){
+                 console.log(data);
+                 console.log('error');
+
+               }
+             });
+			});
+		</script>
 	</body>
 </html>
