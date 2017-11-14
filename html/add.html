@@ -15,7 +15,7 @@
 			</ul>
 		</header>
 		<div class="content">
-				<form action="/add" method="post">
+				<div action="/add" method="post">
 					<table cellspacing="15">
 						<tr>
 							<td><input type="text" class="bigInput" name="show_name" placeholder="Name of the Show" maxlength="50" required=True autofocus></td>
@@ -27,8 +27,11 @@
 					<div align="center">
 						<button type="submit" class="transparent">Add</button></td>
 					</div>
-				</form>
+				</div>
 				<p class="message"> {{ message[0].msg }} </p>
 			</div>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script>
+			</script>
 	</body>
 </html>

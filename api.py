@@ -11,7 +11,7 @@ class TheatreManagementApi(remote.Service):
         if request.from_datastore:
             show = request
 #             show = Show(name = request.name, capacity = request.capacity, available = request.available)
-            print(show)
+#             print(show)
             show.put()
         else:
             return Show(name="Show does not exist")
@@ -26,7 +26,7 @@ class TheatreManagementApi(remote.Service):
     
     @Show.query_method(path="show/list", name="show.list", http_method="GET")
     def show_list(self, query):
-        """ Returns Movie Quotes """
+        """ Returns a list of Shows """
         return query
     
     @Show.method(request_fields=("entityKey",), path="show/delete/{entityKey}", name="show.delete", http_method="DELETE")
