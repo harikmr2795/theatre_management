@@ -5,7 +5,7 @@ from models import *
 @endpoints.api(name="theatreManagement", version="v1", description="Theatre Management API")
 class TheatreManagementApi(remote.Service):
 
-    @Show.method(path="show/book", name="show.book", http_method="POST")
+    @Show.method(path="show/book", name="show.book", http_method="PUT")
     def book_ticket(self, request):
         """  Book a ticket """
         if request.from_datastore:
