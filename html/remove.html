@@ -1,36 +1,87 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>{{ title }}</title>
-		<link rel = "stylesheet" type = "text/css" href = "stylesheets/style.css" />
-	</head>
-	<body>
-		<header>
-			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="buy.html">Buy tickets</a></li>
-				<li><a href="sold.html">Sold ticket details</a></li>
-				<li><a href="add.html">Add show</a></li>
-				<li class="currentTab"><a href="remove.html">Remove show</a></li>
-			</ul>
-		</header>
-		<div class="content">
-			<table>
-				<tr>
-					<th>Show Name</th>
-					<th>Tickets Sold</th>
-				</tr>
-				{% for item in search_query: %}
-    			    <tr>
-                        <td>{{item.name}}</td>
-                        <td>{{item.capacity - item.available}}</td>
-						<td class="transparent"><form action="/remove" method="post"><input type="text" value={{ item.key.urlsafe() }} name="id" hidden><button class="transparent" type="submit">Remove</button></form></td>
-                    </tr>
-                {% endfor %}
-			</table>
-			{% for item in message: %}
-			<p class="message"> {{ item.msg }} </p>
-		    {% endfor %}
-		</div>
-	</body>
+
+<head>
+    <title>Remove Show</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="buy.html">Buy tickets</a></li>
+            <li><a href="sold.html">Sold ticket details</a></li>
+            <li><a href="add.html">Add show</a></li>
+            <li class="currentTab"><a href="remove.html">Remove show</a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Show Name</th>
+                    <th>Tickets Sold</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="toastMessage"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    $(function() {
+        load();
+    });
+
+    function load() {
+        $.ajax({
+            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' },
+            success: function(data) {
+                console.log(data);
+                if (!(data.items)) {
+                    $('tbody').empty().append("<tr><td colspan='2'>No shows available</td></tr>");
+                } else {
+                    $('tbody').empty();
+                    for (var i = 0; i < data.items.length; i++) {
+                        var sold = data.items[i].capacity - data.items[i].available
+                        $('tbody').append("<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' class='transparent' value = " + data.items[i].entityKey + ">Remove</button></td></tr>");
+                    }
+                }
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('error');
+            }
+        });
+    }
+
+    function remove(data) {
+        $.ajax({
+            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/delete/" + $(data).val(),
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' },
+            success: function(data) {
+                $('#toastMessage').empty().append(data.name);
+                toastMessage();
+                setTimeout(function() { load(); }, 500);
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('error');
+            }
+        });
+    };
+
+    function toastMessage() {
+        var x = document.getElementById("toastMessage")
+        x.className = "show";
+        setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+    }
+    </script>
+</body>
+
 </html>

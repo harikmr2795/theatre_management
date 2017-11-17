@@ -1,20 +1,20 @@
-html {
+            html {
                 min-height: 100%;
             }
 
-            body{
+            body {
                 color: #8888C1;
                 background: linear-gradient(#8888C1, #9999CC);
                 margin: 0px;
             }
 
-            *{
+            * {
                 font-size: 30px;
                 font-weight: 400;
                 font-family: sans-serif;
             }
 
-            header{
+            header {
                 z-index: 10;
                 position: fixed;
                 top: 0;
@@ -23,85 +23,105 @@ html {
                 background-color: #000040;
             }
 
-            table{
+            table {
                 margin: auto;
             }
 
-            li{
+            li {
                 display: inline-block;
                 margin: 0 20px;
             }
 
-            td{
+            td {
                 background: white;
                 padding: 5px 15px;
                 text-align: center;
             }
 
-            th{
+            th {
                 background: #CCCCCC;
                 padding: 5px 15px;
                 text-align: center;
             }
 
-            a{
+            a {
                 all: unset;
             }
 
-            button{
+            button {
                 padding: 5px;
             }
 
-            input[type=text]{
-                border: 0;
+            input:focus{
+                outline: none;
+
             }
 
-			input{
-				width: 98%;
-			}
-
-			.nopadding{
-			 	padding: 0;
-			}
-
-            .buy{
-                width:100%;
+            input {
+                border-color: transparent;
             }
 
-            ::placeholder{
+            .nopadding {
+                padding: 0;
+            }
+
+            .buy {
+                width: 100%;
+            }
+
+             ::placeholder {
                 color: #CCCCCC;
             }
 
-            .bigInput{
+            .bigInput {
                 padding: 20px;
                 border-width: 0;
                 width: 350px;
                 height: 20px;
             }
 
-            .content{
+            .content {
                 position: relative;
                 top: 200px;
             }
 
-            .center{
+            .center {
                 margin: auto;
             }
 
-            .pageLinks{
+            .pageLinks {
                 padding: 10px 20px;
                 text-align: center;
             }
 
-            .transparent{
+            .transparent {
                 background-color: transparent;
             }
 
-			.message{
-				text-align: center;
-				color: white;
-			}
+            .message {
+                text-align: center;
+                color: white;
+            }
 
-			.currentTab{
-			    color: white;
-			}
+            .currentTab {
+                color: white;
+            }
+
+            #toastMessage {
+                visibility: hidden;
+                min-width: 250px;
+                margin-left: -125px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                padding: 16px;
+                position: fixed;
+                z-index: 1;
+                left: 50%;
+                bottom: 30px;
+                font-size: 17px;
+            }
+
+            #toastMessage.show {
+                visibility: visible;
+            }

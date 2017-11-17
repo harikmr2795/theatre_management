@@ -8,6 +8,6 @@ class Show(EndpointsModel):
     available = ndb.IntegerProperty()
     _message_fields_schema = ("entityKey", "name", "capacity", "available")
 
-
-class Msg(EndpointsModel):
-    msg = ndb.StringProperty(indexed=True)
+# 
+# class Msg(EndpointsModel):
+#     msg = ndb.StringProperty(indexed=True)

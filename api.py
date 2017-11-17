@@ -10,8 +10,6 @@ class TheatreManagementApi(remote.Service):
         """  Book a ticket """
         if request.from_datastore:
             show = request
-#             show = Show(name = request.name, capacity = request.capacity, available = request.available)
-#             print(show)
             show.put()
         else:
             return Show(name="Show does not exist")
@@ -34,7 +32,8 @@ class TheatreManagementApi(remote.Service):
         """ Delete the given show from the Datastore. """
         if not request.from_datastore:
             raise endpoints.NotFoundException("Show already deleted")
+        message = request.name + ' deleted successfully'
         request.key.delete()
-        return Show(name="deleted")
+        return Show(name=message)
 
 app = endpoints.api_server([TheatreManagementApi], restricted=False)

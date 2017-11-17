@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{{ title }}</title>
+		<title>Sold Details</title>
 		<link rel = "stylesheet" type = "text/css" href = "stylesheets/style.css" />
 	</head>
 	<body>
@@ -16,38 +16,40 @@
 		</header>
 		<div class="content">
 			<table>
-                <tr>
-					<th>Show Name</th>
-					<th>Tickets Sold</th>
-                    <th>Total Seats</th>
-				</tr>
-                {% for item in search_query: %}
-    			    <tr>
-                        <td>{{item.name}}</td>
-                        <td>{{item.capacity - item.available}}</td>
-                        <td>{{item.capacity}}</td>
-                    </tr>
-                {% endfor %}
+				<thead>
+	                <tr>
+						<th>Show Name</th>
+						<th>Tickets Sold</th>
+	                    <th>Total Seats</th>
+					</tr>
+				</thead>
+                <tbody>
+                	
+                </tbody>
 			</table>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script>
 			$(function(){
-             $.ajax({
-               url : "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
-               method : 'get',
-               headers : 'application/json',
-               success : function(data){
-                 console.log(data.items[0].name);
-                 console.log('success');
-
-               },
-               error : function(data){
-                 console.log(data);
-                 console.log('error');
-
-               }
-             });
+              $.ajax({
+                url : "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
+                method : 'get',
+                headers : 'application/json',
+                success : function(data){
+                  if(!(data.items)){
+                  	$('tbody').append("<tr><td colspan='3'>No shows available</td></tr>");
+                  }else{
+	                for (var i=0; i < data.items.length; i++){
+	             	  var sold = data.items[i].capacity - data.items[i].available
+	                  $('tbody').append("<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td>" + data.items[i].available + "</td></tr>");
+	                }
+	              }
+                },
+                error : function(data){
+                  console.log(data);
+                  console.log('error');
+                }
+              });
 			});
 		</script>
 	</body>

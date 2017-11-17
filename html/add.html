@@ -1,37 +1,91 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>{{ title }}</title>
-		<link rel = "stylesheet" type = "text/css" href = "stylesheets/style.css" />
-	</head>
-	<body>
-		<header>
-			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="buy.html">Buy tickets</a></li>
-				<li><a href="sold.html">Sold ticket details</a></li>
-				<li class="currentTab"><a href="add.html">Add show</a></li>
-				<li><a href="remove.html">Remove show</a></li>
-			</ul>
-		</header>
-		<div class="content">
-				<div action="/add" method="post">
-					<table cellspacing="15">
-						<tr>
-							<td><input type="text" class="bigInput" name="show_name" placeholder="Name of the Show" maxlength="50" required=True autofocus></td>
-						</tr>
-						<tr>
-							<td><input type="number" max="10000" min="1" class="bigInput" name="capacity" placeholder="Seating capacity" required=True></td>
-						</tr>
-					</table>
-					<div align="center">
-						<button type="submit" class="transparent">Add</button></td>
-					</div>
-				</div>
-				<p class="message"> {{ message[0].msg }} </p>
-			</div>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script>
-			</script>
-	</body>
+
+<head>
+    <title>Add Show</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="buy.html">Buy tickets</a></li>
+            <li><a href="sold.html">Sold ticket details</a></li>
+            <li class="currentTab"><a href="add.html">Add show</a></li>
+            <li><a href="remove.html">Remove show</a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <form>
+            <table cellspacing="15">
+                <tr>
+                    <td>
+                        <input type="text" class="bigInput" id="name" placeholder="Name of the Show" maxlength="50" required=True autofocus>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" class="bigInput" id="capacity" placeholder="Seating capacity" max="10000" min="1" required=True>
+                    </td>
+                </tr>
+            </table>
+            <div align="center">
+                <button type="button" onclick="validate()" class="transparent">Add</button>
+                </td>
+            </div>
+        </form>
+    </div>
+    <div id="toastMessage"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    function validate() {
+        if ($("#name").val() == '' || $("#capacity").val() == '') {
+            toastMessage('Name and Capacity must be filled');
+            return false;
+        } else if (!($("#capacity").val() < 10000)) {
+            toastMessage('Capacity must be less than 10,000');
+            return false;
+        } else if (!($("#capacity").val() > 0)) {
+            toastMessage('Capacity must be atleast 1');
+            return false;
+        } else {
+            name = $("#name").val();
+            capacity = $("#capacity").val();
+            $('#name').val('');
+            $('#capacity').val('');
+            add(name, capacity)
+            console.log(name, capacity);
+        }
+    }
+
+    function add(name, capacity) {
+        data = {
+            "name": name,
+            "capacity": capacity
+        }
+        $.ajax({
+            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/insert",
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            data: JSON.stringify(data),
+            success: function(data) {
+                toastMessage(name + ' successfully added');
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('error');
+            }
+        });
+    };
+
+    function toastMessage(message) {
+        $('#toastMessage').empty().append(message);
+        var x = document.getElementById("toastMessage")
+        x.className = "show";
+        setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+    }
+    </script>
+</body>
+
 </html>
