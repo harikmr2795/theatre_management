@@ -57,7 +57,7 @@
     function details(key) {
         $.ajax({
             url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",
-            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
+            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
             method: 'get',
             headers: { 'Content-Type': 'application/json' },
             success: function(data) {
@@ -79,7 +79,7 @@
     function validateAndBook() {
         $.ajax({
             url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",
-            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
+            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
             method: 'get',
             headers: { 'Content-Type': 'application/json' },
             success: function(data) {
@@ -102,8 +102,8 @@
                                 "available": data.items[i].available - $("#tickets").val()
                             }
                             $.ajax({
-                                url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/book",                                
-                                url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/book",
+                                url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/book",           
+                                // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/book",
                                 method: 'PUT',
                                 headers: { 'Content-Type': 'application/json' },
                                 data: JSON.stringify(data),
