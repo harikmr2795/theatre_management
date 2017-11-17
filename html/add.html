@@ -65,7 +65,8 @@
             "capacity": capacity
         }
         $.ajax({
-            url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/insert",
+            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/insert",
+            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/insert",
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             data: JSON.stringify(data),
