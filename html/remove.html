@@ -69,7 +69,7 @@
             success: function(data) {
                 $('#toastMessage').empty().append(data.name);
                 toastMessage();
-                setTimeout(function() { load(); }, 500);
+                setTimeout(function() { load(); }, 300);
             },
             error: function(data) {
                 console.log(data);
@@ -81,7 +81,7 @@
     function toastMessage() {
         var x = document.getElementById("toastMessage")
         x.className = "show";
-        setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+        setTimeout(function() { x.className = x.className.replace("show", ""); }, 300);
     }
     </script>
 </body>
