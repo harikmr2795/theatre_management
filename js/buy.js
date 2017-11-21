@@ -20,7 +20,7 @@ function details(key) {
         .then((data) => {
             for (var i = 0; i < data.items.length; i++) {
                 if (key.value === data.items[i].entityKey) {
-                    $('.content').empty().append("<form><table><tr><td>Show Name: " + data.items[i].name + " </td></tr><tr><td>Total Seats: " + data.items[i].capacity + " </td></tr><tr><td>Tickets Available: " + data.items[i].available + " </td></tr><tr><td><input id='tickets' type='number' align='center' placeholder='No. of tickets' required></td></tr><tr><td class='transparent'><button id='entityKey' onclick='validate()' type='button' value='" + data.items[i].entityKey + "' class='transparent'>Book</button></td></tr></table></form>");
+                    document.getElementById("content").innerHTML = "<form><table><tr><td>Show Name: " + data.items[i].name + " </td></tr><tr><td>Total Seats: " + data.items[i].capacity + " </td></tr><tr><td>Tickets Available: " + data.items[i].available + " </td></tr><tr><td><input id='tickets' type='number' align='center' placeholder='No. of tickets' required></td></tr><tr><td class='transparent'><button id='entityKey' onclick='validate()' type='button' value='" + data.items[i].entityKey + "' class='transparent'>Book</button></td></tr></table></form>";
                     break;
                 }
             }
@@ -29,16 +29,18 @@ function details(key) {
 }
 
 function validate() {
+    var tickets = parseInt(document.getElementById("tickets").value);
+    document.getElementById("tickets").value = '';
+    if (isNaN(tickets)) {
+        toastMessage('Enter the no. of tickets to book');
+        return false;
+    }
     fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list")
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.items.length; i++) {
                 if (document.getElementById("entityKey").value === data.items[i].entityKey) {
-                    var tickets = parseInt($("#tickets").val());
-                    if (tickets == '') {
-                        toastMessage('Enter the no. of tickets to book');
-                        return false;
-                    } else if (tickets > data.items[i].available) {
+                    if (tickets > data.items[i].available) {
                         toastMessage('Oops. We don\'t have that many tickets');
                         return false;
                     } else if (tickets < 1) {
@@ -48,7 +50,7 @@ function validate() {
                         var successMessage = tickets + " tickets booked successfully.";
                         var data = {
                             "entityKey": data.items[i].entityKey,
-                            "available": data.items[i].available - $("#tickets").val()
+                            "available": data.items[i].available - tickets
                         }
                         book(successMessage, data);
                     }
@@ -62,6 +64,6 @@ function book(successMessage, data) {
         .then((response) => response.json())
         .then((data) => {
             toastMessage(successMessage);
-            setTimeout(function() { load(); }, 300);
+            setTimeout(load(), 300);
         });
 }

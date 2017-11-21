@@ -8,7 +8,7 @@ function load() {
                 tbody.innerHTML = "";
                 for (var i = 0; i < data.items.length; i++) {
                     var sold = data.items[i].capacity - data.items[i].available
-                    tbody.innerHTML += "<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' class='transparent' value = " + data.items[i].entityKey + ">Remove</button></td></tr>";
+                    tbody.innerHTML += "<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' id='key' class='transparent' value = " + data.items[i].entityKey + ">Remove</button></td></tr>";
                 }
             }
         })
@@ -16,11 +16,11 @@ function load() {
 }
 
 function remove(data) {
-    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/delete/" + $(data).val(), { method: 'delete' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/delete/" + document.getElementById("key").value , { method: 'delete' })
         .then((response) => response.json())
         .then((data) => {
             toastMessage(data.name);
-            setTimeout(function() { load(); }, 300);
+            setTimeout(load(), 300);
         })
         .catch((error) => console.log(error));
 }
