@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
 </head>
 
-<body>
+<body onload='load();'>
     <header>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -16,123 +16,12 @@
             <li><a href="remove.html">Remove show</a></li>
         </ul>
     </header>
-    <div class="content selectShow">
-            <tbody>
-            </tbody>
-        </table>
+    <div class="content selectShow" id="content">
     </div>
     <div id="toastMessage"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-    $(function() {
-        load();
-    });
-
-    function load() {
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
-            method: 'get',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(data) {
-                var entitiesData = data;
-                console.log(data);
-                if (!(data.items)) {
-                    $('.content').empty().append("<table> <thead> <tr> <th>Show Name</th> <th>Tickets Available</th> </tr></thead><tr><td colspan='2'>No shows available</td></tr>");
-                } else {
-                    console.log('This runs');
-                    $('.content').empty().append("<table> <thead> <tr> <th>Show Name</th> <th>Tickets Available</th> </tr></thead><tbody></tbody></table>");
-                    for (var i = 0; i < data.items.length; i++) {
-                        $('tbody').append("<tr><td>" + data.items[i].name + "</td><td>" + data.items[i].available + "</td><td class='transparent'><button onclick='details(this);' class='transparent' value = " + data.items[i].entityKey + ">Details</button></td></tr>");
-                    }
-                }
-            },
-            error: function(entityKey) {
-                console.log(entityKey);
-                console.log('error');
-            }
-        });
-    }
-
-    function details(key) {
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
-            method: 'get',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(data) {
-                console.log($(key).val());
-                for (var i = 0; i < data.items.length; i++) {
-                    if ($(key).val() === data.items[i].entityKey) {
-                        console.log(data.items[i]);
-                        $('.content').empty().append("<form><table><tr><td>Show Name: " + data.items[i].name + " </td></tr><tr><td>Total Seats: " + data.items[i].capacity + " </td></tr><tr><td>Tickets Available: " + data.items[i].available + " </td></tr><tr><td><input id='tickets' type='number' align='center' placeholder='No. of tickets' required></td></tr><tr><td class='transparent'><button id='entityKey' onclick='validateAndBook()' type='button' value='" + data.items[i].entityKey + "' class='transparent'>Book</button></td></tr></table></form>");
-                        break;
-                    }
-                }
-            },
-            error: function(entityKey) {
-                console.log('error');
-            }
-        });
-    }
-
-    function validateAndBook() {
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
-            method: 'get',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(data) {
-                console.log(data);
-                for (var i = 0; i < data.items.length; i++) {
-                    if ($("#entityKey").val() === data.items[i].entityKey) {
-                        if ($("#tickets").val() == '') {
-                            toastMessage('Enter the no. of tickets to book');
-                            return false;
-                        } else if (!($("#tickets").val() <= data.items[i].available)) {
-                            toastMessage('Oops. We don\'t have that many tickets');
-                            return false;
-                        } else if ($("#tickets").val() < 1) {
-                            toastMessage('Book atleast 1 ticket');
-                            return false;
-                        } else {
-                            var successMessage = $("#tickets").val() + " tickets booked successfully.";
-                            var data = {
-                                "entityKey": data.items[i].entityKey,
-                                "available": data.items[i].available - $("#tickets").val()
-                            }
-                            $.ajax({
-                                url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/book",           
-                                // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/book",
-                                method: 'PUT',
-                                headers: { 'Content-Type': 'application/json' },
-                                data: JSON.stringify(data),
-                                success: function(data) {
-                                    toastMessage(successMessage);
-                                    setTimeout(function() { load(); }, 500);
-                                },
-                                error: function() {
-                                    console.log('error');
-                                }
-                            });
-
-                        }
-                    }
-                }
-            },
-            error: function(entityKey) {
-                console.log('error')
-            }
-        });
-    }
-
-    function toastMessage(message) {
-        $('#toastMessage').empty().append(message);
-        var x = document.getElementById("toastMessage")
-        x.className = "show";
-        setTimeout(function() { x.className = x.className.replace("show", ""); }, 300);
-    }
-    </script>
+    <script src="../js/buy.js"></script>
+    <script src="../js/common_functions.js"></script>
 </body>
 
 </html>

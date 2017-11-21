@@ -8,6 +8,8 @@ threadsafe: yes
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
+- url: /js
+  static_dir: js
   
 #Endpoints Handler
 - url: /_ah/spi/.*
@@ -23,5 +25,3 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
-# - name: jinja2
-#   version: latest

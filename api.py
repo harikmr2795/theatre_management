@@ -32,7 +32,7 @@ class TheatreManagementApi(remote.Service):
         """ Delete the given show from the Datastore. """
         if not request.from_datastore:
             raise endpoints.NotFoundException("Show already deleted")
-        message = request.name + ' deleted successfully'
+        message = request.name + ' removed successfully'
         request.key.delete()
         return Show(name=message)
 

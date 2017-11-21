@@ -4,6 +4,9 @@
 <head>
     <title>Add Show</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../js/add.js"></script>
+    <script src="../js/common_functions.js"></script>
 </head>
 
 <body>
@@ -37,56 +40,6 @@
         </form>
     </div>
     <div id="toastMessage"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-    function validate() {
-        if ($("#name").val() == '' || $("#capacity").val() == '') {
-            toastMessage('Name and Capacity must be filled');
-            return false;
-        } else if (!($("#capacity").val() < 10000)) {
-            toastMessage('Capacity must be less than 10,000');
-            return false;
-        } else if (!($("#capacity").val() > 0)) {
-            toastMessage('Capacity must be atleast 1');
-            return false;
-        } else {
-            name = $("#name").val();
-            capacity = $("#capacity").val();
-            $('#name').val('');
-            $('#capacity').val('');
-            add(name, capacity)
-            console.log(name, capacity);
-        }
-    }
-
-    function add(name, capacity) {
-        data = {
-            "name": name,
-            "capacity": capacity
-        }
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/insert",
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/insert",
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            data: JSON.stringify(data),
-            success: function(data) {
-                toastMessage(name + ' successfully added');
-            },
-            error: function(data) {
-                console.log(data);
-                console.log('error');
-            }
-        });
-    };
-
-    function toastMessage(message) {
-        $('#toastMessage').empty().append(message);
-        var x = document.getElementById("toastMessage")
-        x.className = "show";
-        setTimeout(function() { x.className = x.className.replace("show", ""); }, 4000);
-    }
-    </script>
 </body>
 
 </html>

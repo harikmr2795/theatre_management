@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
 </head>
 
-<body>
+<body onload='load();'>
     <header>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -24,66 +24,14 @@
                     <th>Tickets Sold</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tb">
             </tbody>
         </table>
     </div>
-    <div id="toastMessage"></div>
+    <div id="toastMessage">Hari</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-    $(function() {
-        load();
-    });
-
-    function load() {
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/list",            
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/list",
-            method: 'get',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(data) {
-                console.log(data);
-                if (!(data.items)) {
-                    $('tbody').empty().append("<tr><td colspan='2'>No shows available</td></tr>");
-                } else {
-                    $('tbody').empty();
-                    for (var i = 0; i < data.items.length; i++) {
-                        var sold = data.items[i].capacity - data.items[i].available
-                        $('tbody').append("<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' class='transparent' value = " + data.items[i].entityKey + ">Remove</button></td></tr>");
-                    }
-                }
-            },
-            error: function(data) {
-                console.log(data);
-                console.log('error');
-            }
-        });
-    }
-
-    function remove(data) {
-        $.ajax({
-            url: "https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/delete/" + $(data).val(),            
-            // url: "http://localhost:8080/_ah/api/theatreManagement/v1/show/delete/" + $(data).val(),
-            method: 'delete',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(data) {
-                $('#toastMessage').empty().append(data.name);
-                toastMessage();
-                setTimeout(function() { load(); }, 300);
-            },
-            error: function(data) {
-                console.log(data);
-                console.log('error');
-            }
-        });
-    };
-
-    function toastMessage() {
-        var x = document.getElementById("toastMessage")
-        x.className = "show";
-        setTimeout(function() { x.className = x.className.replace("show", ""); }, 4000);
-    }
-    </script>
+    <script src="../js/remove.js"></script>
+    <script src="../js/common_functions.js"></script>
 </body>
 
 </html>
