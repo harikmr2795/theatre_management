@@ -1,39 +1,68 @@
+# import pycrypto
 import endpoints
+from protorpc import messages
+from protorpc import message_types
 from protorpc import remote
-from models import *
+from google.appengine.ext import ndb
 
-@endpoints.api(name="theatreManagement", version="v1", description="Theatre Management API")
+#Model
+class Show(ndb.Model):
+    name = ndb.StringProperty(indexed=True)
+    capacity = ndb.IntegerProperty()
+    available = ndb.IntegerProperty()
+
+class BookRequest(messages.Message):
+    tickets = messages.IntegerField(1)
+
+class AddRequest(messages.Message):
+    name = messages.StringField(1)
+    capacity = messages.IntegerField(2)
+
+DELETE_REQUEST = endpoints.ResourceContainer(message_types.VoidMessage, key=messages.StringField(1, variant=messages.Variant.STRING, required=True))
+
+BOOK_REQUEST = endpoints.ResourceContainer(BookRequest, key=messages.StringField(1, variant=messages.Variant.STRING, required=True))
+
+class ShowDetails(messages.Message):
+    available = messages.IntegerField(1)
+    capacity = messages.IntegerField(2)
+    name = messages.StringField(3)
+    key = messages.StringField(4)
+
+class ListResponse(messages.Message):
+    items = messages.MessageField(ShowDetails, 1, repeated=True)
+
+class MessageResponse(messages.Message):
+    message = messages.StringField(1)
+
+@endpoints.api(name='theatre_management', version='v1')
 class TheatreManagementApi(remote.Service):
+    #Get Shows
+    @endpoints.method(message_types.VoidMessage, ListResponse, path='theatre_management', http_method='get', name='list')
+    def list(self, request):
+        return ListResponse(items = [{'name': item.name, 'capacity': item.capacity, 'available': item.available, 'key': item.key.urlsafe()} for item in Show.query().order(Show.name)])
 
-    @Show.method(path="show/book", name="show.book", http_method="PUT")
-    def book_ticket(self, request):
-        """  Book a ticket """
-        if request.from_datastore:
-            show = request
+    # Add Show
+    @endpoints.method(AddRequest, MessageResponse, path='theatre_management', http_method='post', name='add')
+    def add(self, request):
+        Show(name = request.name, available = request.capacity, capacity = request.capacity).put()
+        return MessageResponse(message = "Successfully added " + request.name)
+
+    #Remove Show
+    @endpoints.method(DELETE_REQUEST, MessageResponse, path='theatre_management/{key}', http_method='delete', name='remove')
+    def delete(self, request):
+        show = ndb.Key(urlsafe = request.key).get()
+        show.key.delete()
+        return MessageResponse(message = show.name + " successfully removed")
+
+    #Book Tickets
+    @endpoints.method(BOOK_REQUEST, MessageResponse, path='theatre_management/{key}', http_method='put', name='book')
+    def book(self, request):
+        show = ndb.Key(urlsafe = request.key).get()
+        if show.available >= request.tickets:
+            show.available -= request.tickets
             show.put()
+            return MessageResponse(message = "Successfully Booked " + str(request.tickets) + " ticket(s)")
         else:
-            return Show(name="Show does not exist")
-        return show
+            return MessageResponse(message = "Oops, We don't have " + str(request.tickets) + " ticket(s)")        
 
-    @Show.method(path="show/insert", name="show.insert", http_method="POST")
-    def show_insert(self, request):
-        """  Inserts a new show into the Datastore. """
-        show = Show(name=request.name, capacity=request.capacity, available=request.capacity)
-        show.put()
-        return show
-    
-    @Show.query_method(path="show/list", name="show.list", http_method="GET")
-    def show_list(self, query):
-        """ Returns a list of Shows """
-        return query
-    
-    @Show.method(request_fields=("entityKey",), path="show/delete/{entityKey}", name="show.delete", http_method="DELETE")
-    def moviequote_delete(self, request):
-        """ Delete the given show from the Datastore. """
-        if not request.from_datastore:
-            raise endpoints.NotFoundException("Show already deleted")
-        message = request.name + ' removed successfully'
-        request.key.delete()
-        return Show(name=message)
-
-app = endpoints.api_server([TheatreManagementApi], restricted=False)
+app = endpoints.api_server([TheatreManagementApi])

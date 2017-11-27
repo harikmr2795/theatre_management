@@ -18,12 +18,13 @@ function validate() {
 }
 
 function add(name, capacity) {
-    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/show/insert", {
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management",{
+    // fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management",{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ "name": name, "capacity": capacity })
         })
         .then((response) => response.json())
-        .then((data) => toastMessage(name + ' successfully added'))
+        .then((data) => toastMessage(data.message))//name + ' successfully added')
         .catch((error) => console.log(error));
 }

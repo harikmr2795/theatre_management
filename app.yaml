@@ -1,5 +1,3 @@
-#application: theatre-management
-#version: 1
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -13,6 +11,7 @@ handlers:
   
 #Endpoints Handler
 - url: /_ah/spi/.*
+# - url: /api/.*
   script: api.app
 
 #Main Handler
@@ -25,3 +24,7 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
+# - name: pycrypto
+#   version: 2.6
+# - name: ssl
+#   version: 2.7.11

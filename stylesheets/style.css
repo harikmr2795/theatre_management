@@ -1,127 +1,126 @@
-            html {
-                min-height: 100%;
-            }
+html {
+    min-height: 100%;
+}
 
-            body {
-                color: #8888C1;
-                background: linear-gradient(#8888C1, #9999CC);
-                margin: 0px;
-            }
+body {
+    color: #8888C1;
+    background: linear-gradient(#8888C1, #9999CC);
+    margin: 0px;
+}
 
-            * {
-                font-size: 30px;
-                font-weight: 400;
-                font-family: sans-serif;
-            }
+* {
+    font-size: 30px;
+    font-weight: 400;
+    font-family: sans-serif;
+}
 
-            header {
-                z-index: 10;
-                position: fixed;
-                top: 0;
-                text-align: center;
-                width: 100%;
-                background-color: #000040;
-            }
+header {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    text-align: center;
+    width: 100%;
+    background-color: #000040;
+}
 
-            table {
-                margin: auto;
-            }
+table {
+    margin: auto;
+}
 
-            li {
-                display: inline-block;
-                margin: 0 20px;
-            }
+li {
+    display: inline-block;
+    margin: 0 20px;
+}
 
-            td {
-                background: white;
-                padding: 5px 15px;
-                text-align: center;
-            }
+td {
+    background: white;
+    padding: 5px 15px;
+    text-align: center;
+}
 
-            th {
-                background: #CCCCCC;
-                padding: 5px 15px;
-                text-align: center;
-            }
+th {
+    background: #CCCCCC;
+    padding: 5px 15px;
+    text-align: center;
+}
 
-            a {
-                all: unset;
-            }
+a {
+    all: unset;
+}
 
-            button {
-                padding: 5px;
-            }
+button {
+    padding: 5px;
+}
 
-            input:focus{
-                outline: none;
+input:focus {
+    outline: none;
+}
 
-            }
+input {
+    border-color: transparent;
+}
 
-            input {
-                border-color: transparent;
-            }
+.nopadding {
+    padding: 0;
+}
 
-            .nopadding {
-                padding: 0;
-            }
+.buy {
+    width: 100%;
+}
 
-            .buy {
-                width: 100%;
-            }
+ ::placeholder {
+    color: #CCCCCC;
+}
 
-             ::placeholder {
-                color: #CCCCCC;
-            }
+.bigInput {
+    padding: 20px;
+    border-width: 0;
+    width: 350px;
+    height: 20px;
+}
 
-            .bigInput {
-                padding: 20px;
-                border-width: 0;
-                width: 350px;
-                height: 20px;
-            }
+.content {
+    position: relative;
+    top: 200px;
+}
 
-            .content {
-                position: relative;
-                top: 200px;
-            }
+.center {
+    margin: auto;
+}
 
-            .center {
-                margin: auto;
-            }
+.pageLinks {
+    padding: 10px 20px;
+    text-align: center;
+}
 
-            .pageLinks {
-                padding: 10px 20px;
-                text-align: center;
-            }
+.transparent {
+    background-color: transparent;
+}
 
-            .transparent {
-                background-color: transparent;
-            }
+.message {
+    text-align: center;
+    color: white;
+}
 
-            .message {
-                text-align: center;
-                color: white;
-            }
+.currentTab {
+    color: white;
+}
 
-            .currentTab {
-                color: white;
-            }
+#toastMessage {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
 
-            #toastMessage {
-                visibility: hidden;
-                min-width: 250px;
-                margin-left: -125px;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                padding: 16px;
-                position: fixed;
-                z-index: 1;
-                left: 50%;
-                bottom: 30px;
-                font-size: 17px;
-            }
-
-            #toastMessage.show {
-                visibility: visible;
-            }
+#toastMessage.show {
+    visibility: visible;
+}
