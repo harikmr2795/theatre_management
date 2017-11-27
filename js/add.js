@@ -25,6 +25,6 @@ function add(name, capacity) {
             body: JSON.stringify({ "name": name, "capacity": capacity })
         })
         .then((response) => response.json())
-        .then((data) => toastMessage(data.message))//name + ' successfully added')
+        .then((data) => toastMessage(data.message))
         .catch((error) => console.log(error));
 }

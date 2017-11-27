@@ -10,7 +10,7 @@ function load() {
                 tbody.innerHTML = "";
                 for (var i = 0; i < data.items.length; i++) {
                     var sold = data.items[i].capacity - data.items[i].available
-                    tbody.innerHTML += "<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' id='key' class='transparent' value = " + data.items[i].token + ">Remove</button></td></tr>";
+                    tbody.innerHTML += "<tr><td>" + data.items[i].name + "</td><td>" + sold + "</td><td class='transparent'><button onclick='remove(this);' id='key' class='transparent' value = " + data.items[i].key + ">Remove</button></td></tr>";
                 }
             }
         })

@@ -10,8 +10,9 @@ handlers:
   static_dir: js
   
 #Endpoints Handler
-- url: /_ah/spi/.*
+
 # - url: /api/.*
+- url: /_ah/spi/.*
   script: api.app
 
 #Main Handler
