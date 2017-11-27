@@ -52,7 +52,7 @@ class TheatreManagementApi(remote.Service):
     def delete(self, request):
         show = ndb.Key(urlsafe = request.key).get()
         show.key.delete()
-        return MessageResponse(message = show.name + " successfully removed")
+        return MessageResponse(message = str(show.name) + " successfully removed")
 
     #Book Tickets
     @endpoints.method(BOOK_REQUEST, MessageResponse, path='theatre_management/{key}', http_method='put', name='book')
