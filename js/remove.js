@@ -3,7 +3,6 @@ function load() {
     // fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
-            console.log("content loaded")
             var tbody = document.getElementById("tb");
             if (!(data.items)) tbody.innerHTML = "<tr><td colspan='2'>No shows available</td></tr>";
             else {
@@ -24,7 +23,6 @@ function remove(data) {
         .then((response) => response.json())
         .then((data) => {
             toastMessage(data.message);
-            console.log("Timeout Starts")
             setTimeout(function(){ load(); }, 300);
         })
         .catch((error) => console.log(error));
