@@ -1,6 +1,6 @@
 function load() {
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
             var content = document.getElementById("content");
@@ -16,8 +16,8 @@ function load() {
 }
 
 function details(key) {
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.items.length; i++) {
@@ -38,8 +38,8 @@ function validate() {
         toastMessage('Enter the no. of tickets to book');
         return false;
     }
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.items.length; i++) {
@@ -63,8 +63,8 @@ function validate() {
 }
 
 function book(data, key) {
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management/"+key, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management/"+key, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management/"+key, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management/"+key, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
         .then((response) => response.json())
         .then((data) => {
             toastMessage(data.message);

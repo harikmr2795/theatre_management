@@ -18,8 +18,8 @@ function validate() {
 }
 
 function add(name, capacity) {
-   // fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management",{
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management",{
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management",{
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management",{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ "name": name, "capacity": capacity })

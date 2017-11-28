@@ -1,6 +1,6 @@
 function load() {
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -19,8 +19,8 @@ function load() {
 
 function remove(data) {
     console.log(data.value);
-     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management/" + data.value, { method: 'delete' })
-//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/theatreManagement/" + data.value, { method: 'delete' })
+//     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management/" + data.value, { method: 'delete' })
+    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatreManagement/v1/theatreManagement/" + data.value, { method: 'delete' })
         .then((response) => response.json())
         .then((data) => {
             toastMessage(data.message);
