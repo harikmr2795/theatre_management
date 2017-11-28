@@ -13,6 +13,9 @@ handlers:
 - url: /_ah/spi/.*
   script: main.application
 
+#- url: /api/.*
+#  script: main.application
+
 #Main Handler
 - url: /.*
   script: main.app
