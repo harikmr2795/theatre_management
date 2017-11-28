@@ -1,6 +1,6 @@
 function load() {
-    // fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
-    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+     fetch("http://localhost:8080/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
+//    fetch("https://theatre-management-182106.appspot.com/_ah/api/theatre_management/v1/theatre_management", { method: 'get' })
         .then((response) => response.json())
         .then((data) => {
             var tbody = document.getElementById("tb");
