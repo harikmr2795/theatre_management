@@ -6,15 +6,12 @@ threadsafe: yes
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
+
 - url: /js
   static_dir: js
-  
-#Endpoints Handler
-- url: /_ah/spi/.*
-  script: main.application
 
-#- url: /api/.*
-#  script: main.application
+#- url: /apis/.*
+#  script: main.apis
 
 #Main Handler
 - url: /.*
@@ -26,7 +23,3 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
-# - name: pycrypto
-#   version: 2.6
-# - name: ssl
-#   version: 2.7.11
